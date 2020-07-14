@@ -6,17 +6,17 @@ const reverseBlocks =  require('./exe5');
 
 jest.setTimeout(30000);
 
-test('EXERCISE 1: Expect to get an array of lenght 10',async () =>{
-   const data =  await runBatches.runBatches(runBatches.tasks10);
+test('EXERCISE 1: Expect to get an array of lenght 10 running 5 promises at the time',async () =>{
+   const data =  await runBatches.runBatches(runBatches.tasks10,5);
    expect(data).toHaveLength(10);
 });
-test('EXERCISE 1: Expect to get an array of lenght 6',async () =>{
-    const data =  await runBatches.runBatches(runBatches.tasks6);
+test('EXERCISE 1: Expect to get an array of lenght 6 running 7 promises at the time',async () =>{
+    const data =  await runBatches.runBatches(runBatches.tasks6,7);
     expect(data).toHaveLength(6);
  });
 
- test('EXERCISE 1: Expect to get an array of lenght 500',async () =>{
-    const data =  await runBatches.runBatches(runBatches.tasks500);
+ test('EXERCISE 1: Expect to get an array of lenght 500 running 100 promises at the time',async () =>{
+    const data =  await runBatches.runBatches(runBatches.tasks500,100);
     expect(data).toHaveLength(500);
  });
 
@@ -69,6 +69,14 @@ test('EXERCISE 4: merge two blocks',async() =>{
    const largeArraySize = largeArray.length;
    const data = mergeArray(largeArray, smallArray);
    expect(data).toEqual([0,1,2,3,4,5,6,7,8,9]);
+});
+
+test('EXERCISE 4: merge two blocks',async() =>{
+   const largeArray = [1,3,5,7,9].concat(new Array(10));
+   const smallArray = [0,2,11,12,4,6,8,10,13,14];
+   const largeArraySize = largeArray.length;
+   const data = mergeArray(largeArray, smallArray);
+   expect(data).toEqual([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14]);
 });
 
 test('EXERCISE 5: reverse a block',async() =>{
