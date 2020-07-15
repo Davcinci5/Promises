@@ -4,7 +4,11 @@
   "description": "",
   "main": "exe1.js",
   "scripts": {
-    "test": "jest"
+    "test:one": "jest -i exe1.test.js",
+    "test:two": "jest -i exe2.test.js",
+    "test:three": "jest -i exe3.test.js",
+    "test:four": "jest -i exe4.test.js",
+    "test:five": "jest -i exe5.test.js"
   },
   "author": "",
   "license": "ISC",
