@@ -21,14 +21,14 @@ const batch_size = 2;
  *
  *  [{value: 1}, {value:2}, {error: 'error'}, ...]
  */
-function runBatches(tasks,numberBtaches){
+
+
+//Attemp 4
+ function runBatches(tasks,numberBtaches){
   
-  return new Promise(res =>{
-    
-    let available =  0;
-    let arre = []
-    let index = 0;
-    
+  return new Promise(async(res) =>{
+    let arre = [];
+
     async function *generator(tasksN){
       for(let i=0;i<tasksN.length;i++) {
         try{
@@ -40,22 +40,25 @@ function runBatches(tasks,numberBtaches){
     }
     
     let doneTasks = generator(tasks);
-    let actual;
-    
-    function callback({value,done}){
-    if(done) {res(arre); return }; 
-    arre[index++] = {value}
-    actual = doneTasks.next();
-    actual.then(value => callback(value));
+    let arreToSolved = [];
+
+    for(let i=0;i<tasks.length;i+=numberBtaches){
+      for(let j=i;j<(i+numberBtaches);j++){
+           if(j<tasks.length)arreToSolved.push(doneTasks.next());
+         }
+      let values = await Promise.all(arreToSolved);
+
+      values.forEach(({value})=>{
+        arre.push({value});
+        if(arre.length === tasks.length) res(arre)
+      })
+
+      arreToSolved = [];
     }
-    while(available<numberBtaches){
-      actual = doneTasks.next();
-      actual.then(value => callback(value));
-      available++
-    } 
   });
 }
 
+ runBatches(tasks6,4).then(console.log)
 
 
 
@@ -77,9 +80,4 @@ module.exports = {tasks6,runBatches,tasks10,tasks20};
 //     }
     
 
-
-              
-
-
-// resolverPromises(tasks6,2).then(console.log)
 

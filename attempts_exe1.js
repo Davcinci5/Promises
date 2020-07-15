@@ -9,7 +9,44 @@ taskFactorySample(2000,true, 4),
 taskFactorySample(1000,false, 'error'),
 taskFactorySample(1000,false, 'error'),
 ];
+///attemp 4
+function runBatches(tasks,numberBtaches){
+  
+  return new Promise(res =>{
+    
+    let available =  0;
+    let arre = []
+    let index = 0;
+    
+    async function *generator(tasksN){
+      for(let i=0;i<tasksN.length;i++) {
+        try{
+          yield await tasksN[i]();
+        }catch(e){
+          yield "error"
+        }
+      }
+    }
+    
+    let doneTasks = generator(tasks);
+    let actual;
+    
+    function callback({value,done}){
+      if(done) {res(arre); return }; 
+      arre[index++] = {value}
+      actual = doneTasks.next();
+      actual.then(value => callback(value));
+    }
+    while(available<numberBtaches){
+      actual = doneTasks.next();
+      actual.then(value => callback(value));
+      available++
+    } 
+  });
+}
 
+
+//attemp 3
 function resolverPromises(tasks,numberBtaches){
 
 return new Promise(res =>{
@@ -110,3 +147,4 @@ function runBatches(tasks,batch_size){
          }
   
         ///
+

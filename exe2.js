@@ -39,3 +39,5 @@ const urlQuery = (url) => fetch(url);
 // queryRetry('https://jsonplaceholder.typicode.com/todos/1', maxRetry, delay, delayIncrement)
 //    .then(console.log)//handleSuccess
 //    .catch(e => console.log(e));//handleErrorOrMaxRetryExceeded
+
+I 
