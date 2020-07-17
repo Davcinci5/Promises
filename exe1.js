@@ -3,66 +3,72 @@ const taskFactorySample = (delay, resolve, val) =>
 () => new Promise((res, rej)=>setTimeout(resolve?res:rej,delay, val))
 
 const tasks6 = [
-  taskFactorySample(500,true, 1),
+  taskFactorySample(5000,true, 1),
   taskFactorySample(1000,true, 2),
   taskFactorySample(5000,false, 'error'),
   taskFactorySample(2000,true, 4),
   taskFactorySample(1000,false, 'error'),
-  taskFactorySample(1000,false, 'error'),
+  taskFactorySample(9000,false, 'error'),
 ];
-const tasks10 = [taskFactorySample(4674,true, 0),taskFactorySample(2173,false, 'error'),taskFactorySample(4996,true, 2),taskFactorySample(932,false, 'error'),taskFactorySample(926,true, 4),taskFactorySample(5093,false, 'error'),taskFactorySample(3246,true, 6),taskFactorySample(4589,false, 'error'),taskFactorySample(2075,true, 8),taskFactorySample(1461,false, 'error')];
-const tasks20 = [taskFactorySample(1659,true, 0),taskFactorySample(1271,false, 'error'),taskFactorySample(2994,true, 2),taskFactorySample(1225,false, 'error'),taskFactorySample(4870,true, 4),taskFactorySample(724,false, 'error'),taskFactorySample(1216,true, 6),taskFactorySample(1075,false, 'error'),taskFactorySample(4133,true, 8),taskFactorySample(2391,false, 'error'),taskFactorySample(1380,true, 10),taskFactorySample(1808,false, 'error'),taskFactorySample(651,true, 12),taskFactorySample(1168,false, 'error'),taskFactorySample(3178,true, 14),taskFactorySample(1557,false, 'error'),taskFactorySample(705,true, 16),taskFactorySample(4217,false, 'error'),taskFactorySample(855,true, 18),taskFactorySample(624,false, 'error')]
-                  
-// only run two primises at a time
-const batch_size = 2;
+
+const tasks4 = [
+  taskFactorySample(5000,true, 1),
+  taskFactorySample(2000,true, 2),
+  taskFactorySample(1000,false, 'error'),
+  taskFactorySample(1500,true, 4)
+];
+                 
+
 /**
  *  Expect to get an array equal to tasks.lenght
  *  with the values or reasons for each of the promises.
  *
  *  [{value: 1}, {value:2}, {error: 'error'}, ...]
  */
-
-
-//Attemp 4
- function runBatches(tasks,numberBtaches){
+function runBatches(tasks,numberBatches){
   
-  return new Promise(async(res) =>{
-    let arre = [];
+  return new Promise(res =>{
 
-    async function *generator(tasksN){
+    function *generator(tasksN){
       for(let i=0;i<tasksN.length;i++) {
-        try{
-          yield await tasksN[i]();
-        }catch(e){
-          yield "error"
-        }
+          yield  {task: tasksN[i],index:i};
       }
     }
-    
+
     let doneTasks = generator(tasks);
-    let arreToSolved = [];
+    let arre= [];
+    let completed_counter = 0;
 
-    for(let i=0;i<tasks.length;i+=numberBtaches){
-      for(let j=i;j<(i+numberBtaches);j++){
-           if(j<tasks.length)arreToSolved.push(doneTasks.next());
-         }
-      let values = await Promise.all(arreToSolved);
-
-      values.forEach(({value})=>{
-        arre.push({value});
-        if(arre.length === tasks.length) res(arre)
-      })
-
-      arreToSolved = [];
+    async function promises(){
+      let end = false;
+        
+      do{
+        if(completed_counter === tasks.length){res(arre); return}; 
+        let {value,done} = doneTasks.next();
+        if(!done){
+          let {task,index:i} = value; 
+          try{
+            let value = await task();
+            arre[i] = {value};
+          }catch(e){
+              arre[i] = {value: "error"};
+          }
+          completed_counter++;   
+        }else{
+            end = done;
+        }
+      }
+      while(!end);
     }
-  });
+
+    for(let i=0;i<numberBatches;i++){
+      promises();
+    }
+  })
 }
 
- runBatches(tasks6,4).then(console.log)
 
-
-
-module.exports = {tasks6,runBatches,tasks10,tasks20};
+module.exports = {tasks6,tasks4,runBatches};
 
 
 
@@ -78,6 +84,4 @@ module.exports = {tasks6,runBatches,tasks10,tasks20};
 //        }
 //        return arre;
 //     }
-    
-
 
