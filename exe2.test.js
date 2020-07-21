@@ -9,7 +9,8 @@ test('EXERCISE 2: Get query successfully in one trie',async () =>{
                    };
 
    const data =  await queryRetry('https://jsonplaceholder.typicode.com/todos/1', 3, 100, 100);
-   expect(data).toEqual(against);
+   const jsonData =  await JSON.parse(data);
+   expect(jsonData).toEqual(against);
 });
 
 test('EXERCISE 2: Faiil in getting data after 3 times',async () =>{

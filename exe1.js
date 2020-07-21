@@ -85,3 +85,29 @@ module.exports = {tasks6,tasks4,runBatches};
 //        return arre;
 //     }
 
+async function batchTasks(tasks, batchSize) {
+  let executing = [];
+  const results = [];
+  
+  for (let task of tasks) {
+      const exec = (async () => {
+          try {
+              return { value: await task() };
+          } catch (error) {
+              return { error }
+          } finally {
+              taskMeta.done = true;
+          }
+      })();
+      let taskMeta = { exec, done: false };
+      executing.push(taskMeta);
+      results.push(exec);
+      
+      if (executing.length >= batchSize) {
+      await Promise.race(executing.map(({ exec }) => exec));
+      executing = executing.filter(({done}) => !done);
+      }
+  }
+  
+  return await Promise.all(results);
+  }
