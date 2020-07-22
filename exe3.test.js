@@ -24,3 +24,5 @@ test('EXERCISE 3 : Cancel a fetch request',() =>{
              let response = await obj.then(response => JSON.parse(response));
                  expect(response).toEqual(against)
  });
+
+ 

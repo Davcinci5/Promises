@@ -17,6 +17,17 @@ const tasks4 = [
   taskFactorySample(1000,false, 'error'),
   taskFactorySample(1500,true, 4)
 ];
+
+const tasks10 = [taskFactorySample(4439,true, 0),
+                taskFactorySample(930,false, 'error'),
+                taskFactorySample(3945,true, 2),
+                taskFactorySample(5040,false, 'error'),
+                taskFactorySample(2682,true, 4),
+                taskFactorySample(3092,false, 'error'),
+                taskFactorySample(4033,true, 6),
+                taskFactorySample(1309,false, 'error'),
+                taskFactorySample(2916,true, 8),
+                taskFactorySample(2318,false, 'error')];
                  
 
 /**
@@ -68,7 +79,7 @@ function runBatches(tasks,numberBatches){
 }
 
 
-module.exports = {tasks6,tasks4,runBatches};
+module.exports = {tasks6,tasks4,tasks10,runBatches};
 
 
 
