@@ -1,5 +1,6 @@
 
-    if(typeof global !== undefined){
+    if(typeof global !== "undefined"){
+        console.log("entro");
         const https = require("https");
         global.fetch = (url) =>{
             return new Promise((resolve,reject)=>{
@@ -14,7 +15,7 @@
                             });
                 }).on("error", (e) => {
                     reject(e);
-                });;
+                });
             })
         }
     }

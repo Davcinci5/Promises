@@ -10,7 +10,7 @@ test('EXERCISE 3 : Cancel a fetch request',() =>{
     const obj = cancellableFetch('https://jsonplacehol.typicode.com/todos/1');
           obj.cancel();
           return obj.then(response => response.json())
-          .then(data => {expect(data).toEqual(against)}).catch( e => expect(e).toMatch('aborted Promise'));
+          .then(data => {expect(data).toEqual(against)}).catch( e => expect(e).toMatch('mission aborted'));
  });
  
  test('EXERCISE 3 : Succeessed a fetch',async() =>{
@@ -21,6 +21,6 @@ test('EXERCISE 3 : Cancel a fetch request',() =>{
                            };
  
     const obj = cancellableFetch('https://jsonplaceholder.typicode.com/todos/1');
-             let response = await obj.then(response => response.json());
+             let response = await obj.then(response => JSON.parse(response));
                  expect(response).toEqual(against)
  });
