@@ -1,17 +1,15 @@
 
     if(typeof global !== "undefined"){
-        console.log("entro");
         const https = require("https");
         global.fetch = (url) =>{
             return new Promise((resolve,reject)=>{
                 https.get(url, res => {
-                        res.setEncoding("utf8");
-                        let body = "";
+                        let chunks = [];
                         res.on("data", data => {
-                            body += data;
+                            chunks.push(data);
                         });
                         res.on("end", () => {
-                            resolve(body)
+                            resolve(chunks.toString());
                             });
                 }).on("error", (e) => {
                     reject(e);
@@ -33,53 +31,29 @@ const delayIncrement = true;
 * is set to true. 
 */
 
-const urlQuery = (url) =>fetch(url);
+const urlQuery = (url) => () => fetch(url);
 
    let counter_tries = 0;
 
-   //attempt 2 
-   module.exports =  function queryRetry(url,maxR,delay,delayInc){ 
+   //attempt 3
+  function queryRetry(cbFetch,maxR,delay,delayInc){ 
        return new Promise(async (res,rej) =>{
-           try{
-               const data =  await urlQuery(url);
-               delayInc = false;
-               return res(data);
-           }catch(e){ 
-               counter_tries++;
-               if(counter_tries < maxR){
-                   if(delayInc){
-                       let nextDel = delay +  (counter_tries * 100); 
-                       setTimeout(() => res(queryRetry(url,maxR,delay,delayInc)),nextDel);   
-                   }
-               }else{
-                   rej(`number of tries exceeded, times ${counter_tries}`)
-               }
+        while(counter_tries < maxR){
+            try{
+                const data =  await cbFetch();
+                return res(data);
+            }catch(e){ 
+                    if(delayInc) delay=+(counter_tries * 100)
+                    await new Promise(res => setTimeout(res,delay))   
             }
+            counter_tries++;
+        }
+        return rej(`number of tries exceeded, times ${counter_tries}`)
        });
    }
-   // function queryRetry(url,maxR,delay,delayInc){ attempt 1
-// module.exports = function queryRetry(url,maxR,delay,delayInc){ 
-//         return new Promise((res,rej) =>{
-//             urlQuery(url).then(val=>{
-//                 try{
-//                     res(val.json());
-//                 }catch(e){
-//                     res(JSON.parse(val))
-//                 }
-//             })
-//             .catch(e=>{ 
-//                 counter_tries++;
-//                 if(counter_tries < maxR){
-//                     if(delayInc){
-//                         let nextDel = delay +  (counter_tries * 100); 
-//                         setTimeout(() => res(queryRetry(url,maxR,delay,delayInc)),nextDel);   
-//                     }
-//                 }else{
-//                     rej(`number of tries exceeded, times ${counter_tries}`)
-//                 }
-//              })
-//         });
-// }
+
+   module.exports = {queryRetry, urlQuery }
+
 
 // queryRetry("https://jsonplaceholder.typicode.com/users", maxRetry, delay, delayIncrement)
 //    .then(console.log)//handleSuccess

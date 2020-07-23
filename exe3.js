@@ -5,12 +5,12 @@ function cancellableFetch(url){
         let response;
         let promise =  new Promise((resolved,rejected)=>{
             response = https.get(url, res => {
-                let json = "";
+                let chunks =[];
                 res.on("data", data => {
-                    json += data;
+                    chunks.push(data);
                 });
                 res.on("end", () => {
-                    resolved(json);
+                    resolved(chunks.toString());
                 });
             }).on("abort",() =>{
                 rejected("mission aborted");
@@ -25,14 +25,26 @@ function cancellableFetch(url){
             response.abort();
         }
     }else{
-        let  controller = new AbortController();
-           
+
+        let xhr = new XMLHttpRequest();
             handler.then = function(cb){
-                return fetch(url, { signal: controller.signal }).then(cb);
+                return new Promise((res,rej)=>{
+                    xhr.open("GET", url);
+                    xhr.send();
+
+                    xhr.addEventListener('loadend',event =>{
+                        res(event.srcElement.responseText);
+                    });
+
+                    xhr.addEventListener('abort', () =>{
+                        rej("mission aborted");
+                    })
+
+                }).then(cb)
             };
 
             handler.cancel = function(){
-                controller.abort();
+                xhr.abort();
             };
         }
         return handler;
