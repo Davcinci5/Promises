@@ -9,7 +9,6 @@
                             chunks.push(data);
                         });
                         res.on("end", () => {
-                            console.log(chunks.join('')==chunks.toString());
                             resolve(chunks.join(''));
                             });
                 }).on("error", (e) => {

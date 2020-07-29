@@ -7,8 +7,8 @@ reverseBlocks(arr, blockSize);
 * [2,1,0,5,4,3,8,7,6,9]
 */
 function reverseBlocks(arr, blockSize){
+    if(arr.length === 0 || blockSize <= 1) return arr;
     let helper = 0;
-
     let start = helper * blockSize,
         end =  start + (blockSize - 1); 
         while(end <= arr.length -1){
