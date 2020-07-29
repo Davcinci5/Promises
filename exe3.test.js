@@ -13,7 +13,7 @@ test('EXERCISE 3 : Cancel a fetch request',() =>{
           .then(data => {expect(data).toEqual(against)}).catch( e => expect(e).toMatch('mission aborted'));
  });
  
- test('EXERCISE 3 : Succeessed a fetch',async() =>{
+ test('EXERCISE 3 : Successed a fetch',async() =>{
     const against = { userId: 1,
                             id: 1,
                            title: 'delectus aut autem',

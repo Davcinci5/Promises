@@ -10,7 +10,7 @@ function cancellableFetch(url){
                     chunks.push(data);
                 });
                 res.on("end", () => {
-                    resolved(chunks.toString());
+                    resolved(chunks.join(''));
                 });
             }).on("abort",() =>{
                 rejected("mission aborted");

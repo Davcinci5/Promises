@@ -9,7 +9,8 @@
                             chunks.push(data);
                         });
                         res.on("end", () => {
-                            resolve(chunks.toString());
+                            console.log(chunks.join('')==chunks.toString());
+                            resolve(chunks.join(''));
                             });
                 }).on("error", (e) => {
                     reject(e);
