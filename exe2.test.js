@@ -1,25 +1,25 @@
 jest.setTimeout(300000);
 const obj =  require('./exe2');
 
-// test('EXERCISE 2: Get query successfully in one trie',async () =>{
-//     const against = { userId: 1,
-//                        id: 1,
-//                        title: 'delectus aut autem',
-//                        completed: false 
-//                    };
+test('EXERCISE 2: Get query successfully in one trie',async () =>{
+    const against = { userId: 1,
+                       id: 1,
+                       title: 'delectus aut autem',
+                       completed: false 
+                   };
 
-//    const data =  await obj.queryRetry(obj.urlQuery('https://jsonplaceholder.typicode.com/todos/1'), 3, 100, 100);
-//    const jsonData =  await JSON.parse(data);
-//    expect(jsonData).toEqual(against);
-// });
+   const data =  await obj.queryRetry(obj.urlQuery('https://jsonplaceholder.typicode.com/todos/1'), 3, 100, 100);
+   const jsonData =  await JSON.parse(data);
+   expect(jsonData).toEqual(against);
+});
 
-// test('EXERCISE 2: Faiil in getting data after 3 times',async () =>{
-//   try {
-//      const data =  await obj.queryRetry(obj.urlQuery('https://jsonplacehol.typicode.com/todos/1'), 3, 100, 100);
-//    } catch (e) {
-//      expect(e).toMatch(`number of tries exceeded, times ${3}`);
-//    }
-// });
+test('EXERCISE 2: Faiil in getting data after 3 times',async () =>{
+  try {
+     const data =  await obj.queryRetry(obj.urlQuery('https://jsonplacehol.typicode.com/todos/1'), 3, 100, 100);
+   } catch ({message:e}) {
+     expect(e).toMatch(`number of tries exceeded, times ${3}`);
+   }
+});
 
 test('EXERCISE 2: Get query successfully in one trie',async () =>{
   const against = [
@@ -255,7 +255,7 @@ test('EXERCISE 2: Get query successfully in one trie',async () =>{
     }
   ];
 
- const data =  await obj.queryRetry(obj.urlQuery('https://jsonplaceholder.typicode.com/users'), 3, 100, 100);
+ const data =  await obj.queryRetry(obj.urlQuery('https://jsonplaceholder.typicode.com/users'), 2, 100, 100);
  const jsonData =  await JSON.parse(data);
  expect(jsonData).toEqual(against);
 });

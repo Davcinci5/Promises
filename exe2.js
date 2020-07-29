@@ -33,23 +33,22 @@ const delayIncrement = true;
 
 const urlQuery = (url) => () => fetch(url);
 
-   let counter_tries = 0;
 
-   //attempt 3
-  function queryRetry(cbFetch,maxR,delay,delayInc){ 
-       return new Promise(async (res,rej) =>{
+//attempt 3
+async function queryRetry(cbFetch,maxR,delay,delayInc){ 
+    let counter_tries = 0;
         while(counter_tries < maxR){
             try{
                 const data =  await cbFetch();
-                return res(data);
+                return data;
             }catch(e){ 
                     if(delayInc) delay=+(counter_tries * 100)
                     await new Promise(res => setTimeout(res,delay))   
             }
             counter_tries++;
         }
-        return rej(`number of tries exceeded, times ${counter_tries}`)
-       });
+        throw new Error(`number of tries exceeded, times ${counter_tries}`);
+
    }
 
    module.exports = {queryRetry, urlQuery }
