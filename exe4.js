@@ -1,37 +1,20 @@
-const PriorityQueue = require('./priorityQueue');
+
 
 function mergeArrays(largeA,smallA) {
-    let queue = new PriorityQueue();
-    //smaller
-    let min;
-    for(let i=0;i<largeA.length;i++){
-      min = queue.isEmpty() ? largeA[i] : queue.firstElement();
+  let pointer_small = smallA.length - 1,
+      pointer_large = largeA.length - smallA.length - 1;
 
-      if(i < smallA.length){
-        if(smallA[i] < min){
-          min = smallA[i];
+      for(let i = (largeA.length - 1); i>=0; i--){
+        if(largeA[pointer_large]>smallA[pointer_small] || pointer_small < 0){
+          largeA[i] = largeA[pointer_large];
+          pointer_large--;
         }else{
-          queue.enqueue(smallA[i]);
+          largeA[i] = smallA[pointer_small];
+          pointer_small--;
         }
       }
-      
-      if(largeA[i] !== undefined ){
-          if(largeA[i] < min ){
-            min = largeA[i];
-          }else{
-            queue.enqueue(largeA[i]);
-          } 
-      }
-    
-        
-       if(min === queue.firstElement()){
-          min = queue.dequeue();
-       }
-       largeA[i] = min;
-    
-    }
-return;
 }
+
 
 
 module.exports = mergeArrays;
