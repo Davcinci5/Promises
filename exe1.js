@@ -83,42 +83,29 @@ module.exports = {tasks6,tasks4,tasks10,runBatches};
 
 
 
-//  function createData(total){
-//      let arre = '';
+// async function batchTasks(tasks, batchSize) {
+//   let executing = [];
+//   const results = [];
   
-//      for(let i=0;i<total;i++){
-//           let delay = Math.floor(Math.random() * 5000) + 500,
-//               state = i%2 == 0 ? true:false,
-//               value = state ? i : "'error'",
-//               string = `taskFactorySample(${delay},${state}, ${value})`;
-//               arre += arre === '' ? `[${string},` : i + 1 === total ? `${string}]` : `${string},`
-//        }
-//        return arre;
-//     }
-
-async function batchTasks(tasks, batchSize) {
-  let executing = [];
-  const results = [];
-  
-  for (let task of tasks) {
-      const exec = (async () => {
-          try {
-              return { value: await task() };
-          } catch (error) {
-              return { error }
-          } finally {
-              taskMeta.done = true;
-          }
-      })();
-      let taskMeta = { exec, done: false };
-      executing.push(taskMeta);
-      results.push(exec);
+//   for (let task of tasks) {
+//       const exec = (async () => {
+//           try {
+//               return { value: await task() };
+//           } catch (error) {
+//               return { error }
+//           } finally {
+//               taskMeta.done = true;
+//           }
+//       })();
+//       let taskMeta = { exec, done: false };
+//       executing.push(taskMeta);
+//       results.push(exec);
       
-      if (executing.length >= batchSize) {
-      await Promise.race(executing.map(({ exec }) => exec));
-      executing = executing.filter(({done}) => !done);
-      }
-  }
+//       if (executing.length >= batchSize) {
+//       await Promise.race(executing.map(({ exec }) => exec));
+//       executing = executing.filter(({done}) => !done);
+//       }
+//   }
   
-  return await Promise.all(results);
-  }
+//   return await Promise.all(results);
+//   }

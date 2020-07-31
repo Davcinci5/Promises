@@ -34,18 +34,17 @@ const delayIncrement = true;
 const urlQuery = (url) => () => fetch(url);
 
 
-//attempt 3
+//attempt 5
 async function queryRetry(cbFetch,maxR,delay,delayInc){ 
-    let counter_tries = 0;
+    let counter_tries = 1;
         while(counter_tries < maxR){
             try{
                 const data =  await cbFetch();
                 return data;
             }catch(e){ 
-                    if(delayInc) delay=+(counter_tries * 100)
+                    if(delayInc) delay=+(counter_tries++ * 100)
                     await new Promise(res => setTimeout(res,delay))   
             }
-            counter_tries++;
         }
         throw new Error(`number of tries exceeded, times ${counter_tries}`);
 
