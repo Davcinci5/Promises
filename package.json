@@ -8,7 +8,8 @@
     "test:two": "jest -i exe2.test.js",
     "test:three": "jest -i exe3.test.js",
     "test:four": "jest -i exe4.test.js",
-    "test:five": "jest -i exe5.test.js"
+    "test:five": "jest -i exe5.test.js",
+    "test:six": "jest -i exe6.test.js"
   },
   "author": "",
   "license": "ISC",
