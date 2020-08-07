@@ -1,27 +1,37 @@
 const dictionary = require('./words_dictionary.json');
 
 
-function getLongestWord(letters){
-    let longest = "";
-    
-    function permutations(prefix,suffix){
-        if(dictionary[prefix] && prefix.length >= longest.length){
-          if(prefix.length === longest.length ){
-            longest = prefix < longest ? prefix : longest;
-          }else{
-            longest = prefix;
-          }
-        }
-        if(suffix!==""){
-            for(let i=0;i<suffix.length;i++){
-                permutations(prefix+suffix[i],suffix.substring(0,i) + suffix.substring(i+1,suffix.length))
-            }
-        }
-    
-    }
-    permutations("",letters.toLowerCase());
-    return longest;
+function contains(dictionary,myWord){
+  let seen = {},
+      start,
+      index;
+for(let i=0;i<dictionary.length;i++){
+      start = seen[dictionary[i]] !== undefined ? seen[dictionary[i]] : -1; 
+      index = myWord.indexOf(dictionary[i],start+1);
+      if(index === -1) return false;
+      seen[dictionary[i]] = index;
+   }
+   return true;
 }
 
-module.exports = getLongestWord;
 
+
+
+function getLongestWord(str){
+  str = str.toLowerCase();
+  let result = "",
+      length = 0,
+      keys = Object.keys(dictionary);
+      for(let i=0;i<keys.length;i++){
+        if(contains(keys[i],str) && length<keys[i].length){
+          result = keys[i];
+          length = keys[i].length
+        }
+      }
+    return result;
+}
+
+
+
+module.exports = getLongestWord;
+                            
