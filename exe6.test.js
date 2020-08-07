@@ -30,3 +30,8 @@ test('EXERCISE 6: FIND LARGEST WORD add',async() =>{
    expect(data).toBe(tofind);
 });
 
+test('EXERCISE 6: FIND LARGEST WORD dichlorodiphenyltrichloroethane',async() =>{
+   const tofind = 'dichlorodiphenyltrichloroethane';
+   const data = getLongestWord('"ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ"');
+   expect(data).toBe(tofind);
+});

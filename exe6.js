@@ -27,7 +27,7 @@ function getLongestWord(str){
         return a.length - b.length; 
       });
 
-      for(let i=0;keys[i].length<=str.length && i<keys.length;i++){
+      for(let i=0; i<keys.length && keys[i].length<=str.length;i++){
         if(contains(keys[i],str) && length<=keys[i].length){
           result = result.length === keys[i].length ? keys[i] < result ? keys[i] : result : keys[i];
           length = result.length
