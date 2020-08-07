@@ -22,10 +22,15 @@ function getLongestWord(str){
   let result = "",
       length = 0,
       keys = Object.keys(dictionary);
-      for(let i=0;i<keys.length;i++){
-        if(contains(keys[i],str) && length<keys[i].length){
-          result = keys[i];
-          length = keys[i].length
+
+      keys.sort(function(a,b){
+        return a.length - b.length; 
+      });
+
+      for(let i=0;keys[i].length<=str.length && i<keys.length;i++){
+        if(contains(keys[i],str) && length<=keys[i].length){
+          result = result.length === keys[i].length ? keys[i] < result ? keys[i] : result : keys[i];
+          length = result.length
         }
       }
     return result;
