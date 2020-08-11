@@ -18,23 +18,29 @@ for(let i=0;i<dictionary.length;i++){
 
 function getLongestWord(str){
   str = str.toLowerCase();
-  let result = "",
-  length = 0,
-  keys = Object.keys(dictionary),
-  i=0;
-  
-  keys.sort(function(a,b){
-    return a.length - b.length; 
-  });
+  keys = Object.keys(dictionary);
 
- do{
-    if(contains(keys[i],str)){
-        result = result.length === keys[i].length ? keys[i] < result ? keys[i] : result : keys[i];
-        length = result.length
+  let arreWords = {},
+      start = 0;
+
+  for (let key of keys) {
+    let length = key.length;
+    if(arreWords[length] === undefined) arreWords[length] = [];
+    arreWords[length].push(key);
+    start = start < length ? length : start;     
+  }
+
+  start = str.length > start ? start : str.length;
+
+ while(start > 0){
+    for (const word of arreWords[start]) {
+      if(contains(word,str)){
+          return word;
       }
-     i++;
-  }while(i < keys.length && keys[i].length<=str.length)
-  return result;
+    }
+    start--;
+  }
+
 }
 
-module.exports = getLongestWord;
+ module.exports = getLongestWord;

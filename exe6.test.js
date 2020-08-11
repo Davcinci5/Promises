@@ -26,7 +26,7 @@ test('EXERCISE 6: FIND LARGEST WORD add',async() =>{
  
  test('EXERCISE 6: FIND LARGEST WORD dermatoglyphics',async() =>{
    const tofind = 'dermatoglyphics';
-   const data = getLongestWord('ABCDEFGHIJKLMNOPQRSTUVWXYZ');
+   const data = getLongestWord('ABCDEFGHIJKLMNOPQRSTUVWXY');
    expect(data).toBe(tofind);
 });
 
