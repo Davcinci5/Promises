@@ -1,5 +1,4 @@
-const dictionary = require('./words_dictionary.json');
-
+const dictionary = require('./wordOptimized.json');
 
 function contains(dictionary,myWord){
   let seen = {},
@@ -14,33 +13,20 @@ for(let i=0;i<dictionary.length;i++){
    return true;
 }
 
-
-
 function getLongestWord(str){
   str = str.toLowerCase();
-  keys = Object.keys(dictionary);
+  start = str.length > 31 ? 31 : str.length;
 
-  let arreWords = {},
-      start = 0;
-
-  for (let key of keys) {
-    let length = key.length;
-    if(arreWords[length] === undefined) arreWords[length] = [];
-    arreWords[length].push(key);
-    start = start < length ? length : start;     
-  }
-
-  start = str.length > start ? start : str.length;
-
- while(start > 0){
-    for (const word of arreWords[start]) {
-      if(contains(word,str)){
-          return word;
+    let regex = new RegExp(`[^${str}]`);
+    while(start > 0){
+        let optimizedSearch = dictionary[start].filter(word => !regex.test(word));
+      for (const word of optimizedSearch) {
+        if(contains(word,str)){
+            return word;
+        }
       }
+      start--;
     }
-    start--;
-  }
-
 }
 
  module.exports = getLongestWord;

@@ -1,6 +1,6 @@
 var fs = require('fs');
 const dictionary = require('./words_dictionary.json');
-keys = Object.keys(dictionary);
+//keys = Object.keys(dictionary);
 // keys.sort(function(a,b){
   //     if (a < b) {
     //         return -1;
@@ -13,11 +13,18 @@ keys = Object.keys(dictionary);
       //       return 0; 
       //   });
       
-      keys.sort();
-        keys.sort(function(a,b){
-          return a.length - b.length; 
-        });
-fs.writeFile('mynewfile3.txt', keys, function (err) {
+      // keys.sort();
+      //   keys.sort(function(a,b){
+      //     return a.length - b.length; 
+      //   });
+        let Arrwords = Object.keys(dictionary)
+        optimizedDictionary = {};
+        for (let word of Arrwords) {
+          let length = word.length;
+          if(!optimizedDictionary[length]) optimizedDictionary[length] = [];
+          optimizedDictionary[length].push(word);
+        }
+fs.writeFile('mynewfile3.txt', JSON.stringify(optimizedDictionary), function (err) {
     if (err) throw err;
     console.log('Saved!');
   });
