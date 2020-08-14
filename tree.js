@@ -25,42 +25,30 @@ class Trie{
     return this.add(input.substr(1),node.keys.get(input[0]));
   }
 
-  findLargest(letters,node = this.root){
+  findLargest(letters,_node = this.root){
       let largestWord = "";
-      let search = (node,letters,word) => {
-        if(node.keys.size != 0){
-          let seen = {}
-          for(let letter of letters){
-              if(!seen[letter]){
-                if(node.keys.has(letter)){
-                  let splitWord = letters.replace(new RegExp(letter),"");
-                  search(node.keys.get(letter), splitWord,word.concat(letter));
+      let search = (node,word,indexes) =>{
+         if(node.keys.size != 0){
+            for (let letter of node.keys.keys()) {
+              let start = indexes[letter] === undefined ? 0 : (indexes[letter]+1),
+                  index = letters.indexOf(letter,start);
+              if(index !== -1){
+                let newIndex = {...indexes};
+                    newIndex[letter] = index;
+                    search(node.keys.get(letter),word.concat(letter),newIndex);
                 }
-              }
-              seen[letter] = true;
-          }
-       }
-        if(node.isEnd()){
-          if(word.length >= largestWord.length){
+            }
+         }
+         if(node.isEnd()){
+           if(word.length >= largestWord.length){
              largestWord = word.length > largestWord.length ? word : word < largestWord ? word : largestWord;   
-          }
-          return;
-        } 
-      }
-      search(node,letters,"");
+           }
+           return;
+         } 
+       }
+       search(_node,"",{});
       return largestWord;
   }
 }
 module.exports = Trie;
 
-// let myTrie = new Trie();
-// myTrie.add('ball');
-// myTrie.add('bat');
-// myTrie.add('doll');
-// myTrie.add('dark');
-// myTrie.add('dorm');
-// myTrie.add('send');
-// myTrie.add('sense');
-
-// // console.log(myTrie);
-// console.log("value ",myTrie.myChidorisFUnction('sseend'));
