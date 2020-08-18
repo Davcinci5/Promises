@@ -53,6 +53,12 @@ async function queryRetry(cbFetch,maxR,delay,delayInc){
    module.exports = {queryRetry, urlQuery }
 
 
-// queryRetry("https://jsonplaceholder.typicode.com/users", maxRetry, delay, delayIncrement)
-//    .then(console.log)//handleSuccess
-//    .catch(console.log);//handleErrorOrMaxRetryExceeded
+queryRetry("https://jsonplaceholder.typicode.com/users", maxRetry, delay, delayIncrement)
+   .then(console.log)//handleSuccess
+   .catch(console.log);//handleErrorOrMaxRetryExceeded
+
+
+////********************************************************************* */
+
+
+//module.exports = queryRetry;

@@ -19,12 +19,6 @@ test('EXERCISE 7: only 1 number 11111',async() =>{
  });
 
 
- test('EXERCISE 7: find the second longest number',async() =>{
-    const tofind = '11112222';
-    const data = longestRunOfTwoNumbers('2222444411112222');
-    expect(data).toBe(tofind);
- });
-
  test('EXERCISE 7: find the longest one lined up as the last one',async() =>{
     const tofind = '111122222';
     const data = longestRunOfTwoNumbers('22224444111122222');
