@@ -3,11 +3,10 @@ function longestRunOfTwoNumbers(input){
     for (let up = 0; up < input.length; up++) {
         let letter = input[up];
         set.add(letter);
-        if(!times[letter]) times[letter] = 0;
-        times[letter]++;
-        while(set.size > 2){
-          if(--times[input[down]] === 0) set.delete(input[down]);
-          down++;
+        times[letter]= up;
+        if(set.size > 2){ 
+           set.delete(input[down]);
+           down = times[input[down]]+1;
         }
         if((end-start) < (up-down)){
             end = up;
@@ -16,7 +15,6 @@ function longestRunOfTwoNumbers(input){
     }
  return input.substring(start, end+1)
 }
-
 
 module.exports = longestRunOfTwoNumbers;
 
@@ -44,3 +42,25 @@ module.exports = longestRunOfTwoNumbers;
 //     }
 //     return longestRun === "" ? input : longestRun;
 // }
+
+// function longestRunOfTwoNumbers(input){
+//     let end = 0, start = 0, set = new Set(), times={}, down =0;
+//     for (let up = 0; up < input.length; up++) {
+//         let letter = input[up];
+//         set.add(letter);
+//         if(!times[letter]) times[letter] = 0;
+//         times[letter]++;
+//         while(set.size > 2){
+//           if(--times[input[down]] === 0) {set.delete(input[down]); console.log("down",down+1)}
+//           down++;
+//         }
+//         if((end-start) < (up-down)){
+//             console.log("start: ",start);
+//             end = up;
+//             start = down;
+//         } 
+//     }
+//     console.log(start,end,times,down);
+//  return input.substring(start, end+1)
+// }
+// console.log(longestRunOfTwoNumbers('1212223311212223'));
