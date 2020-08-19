@@ -43,10 +43,12 @@ class Trie{
 
         let search = (node,letters) => {
           if(!node.isKeysEmpty()){
+            let actual = ""
             for (let i=0;i<letters.length;i++){
-              letter = letters[i]; 
-              if(node.keys.has(letter) ){
+              let letter = letters[i]; 
+              if(node.keys.has(letter) && actual !==letter){
                 search(node.keys.get(letter),letters.substr(i+1));
+                actual = letter;
               }
             }
           }

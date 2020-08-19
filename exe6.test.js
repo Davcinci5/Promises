@@ -24,9 +24,9 @@ test('EXERCISE 6: FIND LARGEST WORD add',async() =>{
     expect(data).toBe(tofind);
  });
  
- test('EXERCISE 6: FIND LARGEST WORD dermatoglyphics',async() =>{
-   const tofind = 'dermatoglyphics';
-   const data = getLongestWord('ABCDEFGHIJKLMNOPQRSTUVWXYZ');
+ test('EXERCISE 6: FIND LARGEST WORD dichlorodiphenyltrichloroethane',async() =>{
+   const tofind = 'dichlorodiphenyltrichloroethane';
+   const data = getLongestWord('abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz');
    expect(data).toBe(tofind);
 });
 
